@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Domain\Users\Services;
 
-use Livewire\Component;
 use App\Models\Permission;
+use Livewire\Component;
 
-class Permissions extends Component
+class PermissionService extends Component
 {
     public $permissions, $slug, $name, $role_id;
     public function render()

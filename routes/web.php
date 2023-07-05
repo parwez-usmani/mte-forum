@@ -11,25 +11,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::group(['middleware'=>['web']],function(){
-    Route::view('login','livewire.home')->name('login');
 
-    // Route::view('roles/create', 'livewire.roles.create')->name('roles.create');
-});
+//Route::get('/', function () {
+//    Route::view('login','livewire.home')->name('login');
+//});
+
 // Route::view('login','livewire.home')->name('login');
 Route::view('dashboard', 'livewire.dashboard')->name('dashboard.index');
 
 // users
-Route::view('user', 'livewire.users.index')->name('users.index');
+
 
 // permissions
-Route::view('permission', 'livewire.permissions.index')->name('permissions.index');
+
 
 // roles
-Route::view('role', 'livewire.roles.index')->name('roles.index');
+
 // Route::view('roles/create', 'livewire.roles.create')->name('roles.create');
 
 // category
@@ -51,6 +48,6 @@ Route::view('accessdenied','livewire.accessdenied')->name('accessdenied');
 // });
 
 // permission auth url restriction
-Route::group(['middleware'=>['auth','permission:superadmin']],function(){ 
-    Route::view('roles/create', 'livewire.roles.create')->name('roles.create'); 
+Route::group(['middleware'=>['auth','permission:superadmin']],function(){
+    Route::view('roles/create', 'livewire.roles.create')->name('roles.create');
 });

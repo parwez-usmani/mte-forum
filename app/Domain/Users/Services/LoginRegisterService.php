@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Domain\Users\Services;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Livewire\Component;
 
-class LoginRegister extends Component
+class LoginRegisterService extends Component
 {
     public $users, $roles,$usernames, $role_id,$email, $password, $terms,$name, $rememberM;
     public $registerForm = false;
@@ -20,7 +20,8 @@ class LoginRegister extends Component
         return view('livewire.login-register');
     }
 
-    private function resetInputFields(){
+    private function resetInputFields(): void
+    {
         $this->name = '';
         $this->email = '';
         $this->usernames = '';
@@ -73,9 +74,9 @@ class LoginRegister extends Component
         ]
     );
 
-        $this->password = Hash::make($this->password); 
+        $this->password = Hash::make($this->password);
         $user =  User::create([
-            'name' => $this->name, 
+            'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
             'usernames' => $this->usernames,
@@ -87,7 +88,7 @@ class LoginRegister extends Component
             'role_id'=>$this->role_id,
             'user_id'=>$last_id,
         );
-        DB::table('users_roles')->insert($role_user); 
+        DB::table('users_roles')->insert($role_user);
         $last_role = DB::table('users_roles')
                 ->select("role_id")
                 ->where('user_id', $last_id)->first();
@@ -104,7 +105,7 @@ class LoginRegister extends Component
                 "permission_id"=>$permission_id,
             );
             DB::table('users_permissions')->insert($users_permissions);
-        }  
+        }
 
         session()->flash('message', 'Your register successfully Go to the login page.');
         $this->resetInputFields();

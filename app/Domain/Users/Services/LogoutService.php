@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Domain\Users\Services;
 
-use Livewire\Component;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use App\Models\User;
+use Livewire\Component;
 
-class Logout extends Component
+class LogoutService extends Component
 {
     use AuthorizesRequests;
     public function render()
@@ -20,6 +19,6 @@ class Logout extends Component
     {
         Auth::logout();
         Session::flush();
-        return redirect()->to('/login');
+        return redirect()->to('/');
     }
 }

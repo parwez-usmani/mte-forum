@@ -11,10 +11,10 @@
     @endif
 
     @if($updateMode)
-        @include('livewire.roles.update')
+        @include('roles::update')
     @else
 
-        @include('livewire.roles.create')
+        @include('roles::create')
 
     @endif
 
@@ -40,11 +40,11 @@
                             {{$rolep->slug}}
                         </span>
                         @endforeach
-                    </td> 
+                    </td>
                 <td>
-          
+
                         <button wire:click="edit({{ $role->id }})" class="btn btn-primary btn-sm">Edit </button>
-                 
+
                     <button wire:click="delete({{ $role->id }})" class="btn btn-danger btn-sm" style="display:none">Delete</button>
                 </td>
             </tr>

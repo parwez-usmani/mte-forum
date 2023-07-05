@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Domain\Users\Services;
 
-use Livewire\Component;
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
 
-class Roles extends Component
+class RoleService extends Component
 {
     public $roles,$roless, $permissions, $role_name, $role_slug, $permission_id, $role_id, $roles_id;
     public $updateMode = false;
@@ -16,7 +15,7 @@ class Roles extends Component
     // public $roless = Role::all();
     public $selectedPermissionId;
 
-    public function mount()
+    public function mount(): void
     {
         $this->roless = Role::all();
         $this->selectedPermissionId = 1;
@@ -28,12 +27,13 @@ class Roles extends Component
         $this->permissions = Permission::all();
         return view('livewire.roles');
     }
-    private function resetInputFields(){
+    private function resetInputFields(): void
+    {
         $this->role_name = '';
         $this->role_slug = '';
         $this->permission_id = '';
     }
-    public function rolestore()
+    public function rolestore(): void
     {
         // dd($this->permission_id);
         $validatedDate = $this->validate([
@@ -51,7 +51,7 @@ class Roles extends Component
         $Id_array = implode(',',$this->permission_id);
         $role_slug_lower = strtolower($this->role_name);
         $role = Role::create([
-            'role_name' => $this->role_name, 
+            'role_name' => $this->role_name,
             'role_slug' => $role_slug_lower,
             'permission_id' => $Id_array,
         ]);
@@ -66,7 +66,7 @@ class Roles extends Component
                     "permission_id"=>$permission_id,
                 );
                 DB::table('roles_permissions')->insert($role_user);
-            }  
+            }
 
         session()->flash('message', 'Your register successfully Go to the login page.');
         $this->resetInputFields();
@@ -76,7 +76,7 @@ class Roles extends Component
      *
      * @var array
      */
-    public function edit($id)
+    public function edit($id): void
     {
         $role = Role::findOrFail($id);
         $permissionId = $role->permission_id;
@@ -88,24 +88,24 @@ class Roles extends Component
 
         $this->updateMode = true;
     }
-  
+
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @return void
      */
-    public function cancel()
+    public function cancel(): void
     {
         $this->updateMode = false;
         $this->resetInputFields();
     }
-  
+
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @return void
      */
-    public function update()
+    public function update(): void
     {
         $validatedDate = $this->validate([
             'role_name' => 'required|max:20',
@@ -118,7 +118,7 @@ class Roles extends Component
             'permission_id.required' => 'Please select permission for role.',
 
         ]);
-  
+
         $role = Role::find($this->roles_id);
         $Id_array = implode(',',(array) $this->permission_id);
         $role_slug_lower = strtolower($this->role_name);
@@ -139,23 +139,6 @@ class Roles extends Component
             $delete_roles = DB::table('roles_permissions')->where('role_id', $last_role_id)->delete();
         }
 
-        // $roles_permissions_old = DB::table('roles_permissions')
-        // ->select('role_id','permission_id')->get();
-        // $permission_ids_new = $this->permission_id;
-
-        // if($roles_permissions_old){
-        //     $flag = 0;
-        //     foreach ($roles_permissions_old as $permission_value) 
-        //     {
-        //         if(($permission_value->role_id == $last_id) && (in_array($permission_value->permission_id,$permission_ids_new))) 
-        //         {
-        //             $flag = 1;
-        //         }
-        //     }
-        //         if($flag == 1){
-        //             $delete_roles = DB::table('roles_permissions')->where('role_id', $last_id)->delete();
-        //         }
-        //     }
             $permission_ids = $this->permission_id;
 
             foreach ($permission_ids as $permission_id) {
@@ -165,21 +148,21 @@ class Roles extends Component
                     "permission_id"=>$permission_id,
                 );
             DB::table('roles_permissions')->insert($role_user);
-                
+
             }
-  
+
         $this->updateMode = false;
-  
+
         session()->flash('message', 'Role Updated Successfully.');
         $this->resetInputFields();
     }
-   
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    public function delete($id)
+    public function delete($id): void
     {
         Role::find($id)->delete();
         DB::table("roles_permissions")->where('role_id',$id)->delete();

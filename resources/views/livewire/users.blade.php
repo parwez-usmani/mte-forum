@@ -11,22 +11,22 @@
     @endif
 
     @if($updateMode)
-        @include('livewire.users.update')
+        @include('users::update')
     @else
 
-            @include('livewire.users.create')
-      
+            @include('users::create')
+
     @endif
 
     <table class="table table-bordered mt-5">
         <thead>
             <tr>
-              
+
                 <th>No.</th>
-           
-             
+
+
                 <th>UserName</th>
-               
+
                 <th>Email</th>
                 <th>Role</th>
                 <th width="150px">Action</th>

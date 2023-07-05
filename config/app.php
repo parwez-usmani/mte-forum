@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\PermissionServiceProvider::class,
-        // App\Domain\User\LoginServiceProvider::class,
+        App\Domain\Users\UserServiceProvider::class,
 
     ],
 
